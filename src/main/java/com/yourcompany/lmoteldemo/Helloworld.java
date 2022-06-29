@@ -26,7 +26,7 @@ public class Helloworld {
         // initialise application start scope sdkTracerProvider
         // Resource serviceResource = LMResourceDetector.detect();
 */
-        
+
         //Create Resource
         AttributesBuilder attrBuilders = Attributes.builder()
                 .put(ResourceAttributes.SERVICE_NAME, SERVICE_NAME)
