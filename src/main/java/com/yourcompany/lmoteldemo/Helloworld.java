@@ -32,8 +32,8 @@ public class Helloworld {
 
         //Create Span Exporter either an http or an GRPC
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
-                .setEndpoint("https://qauattraces01.logicmonitor.com/rest")
-                //.setEndpoint("http://localhost:55680")
+                //.setEndpoint("https://qauattraces01.logicmonitor.com/rest")
+                .setEndpoint("http://localhost:55680")
                 .build();
 
         //Create SdkTracerProvider so GlobalOpenTelemetry can understand
