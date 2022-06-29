@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.logicmonitor.apm</groupId>
+	<artifactId>java-demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<name>logicmonitor-demo</name>
+	<description>LogicMonitor Demo Project</description>
+	<properties>
+		<java.version>1.8</java.version>
+		<opentelemetry.version>1.14.0</opentelemetry.version>
+		<logicmonitor_otel.version>0.1.0-alpha</logicmonitor_otel.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-sdk-extension-aws</artifactId>
+			<version>${opentelemetry.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.logicmonitor</groupId>
+			<artifactId>lm-opentelemetry-sdk</artifactId>
+			<version>${logicmonitor_otel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-otlp</artifactId>
+			<version>${opentelemetry.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-semconv</artifactId>
+			<version>1.14.0-alpha</version>
+		</dependency>
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-netty-shaded</artifactId>
+			<version>1.39.0</version>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.opentelemetry</groupId>
+				<artifactId>opentelemetry-bom</artifactId>
+				<version>${opentelemetry.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!--build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build-->
+
+</project>
