@@ -24,11 +24,11 @@ jobs:
         cache: maven
     - name: Build with Maven
       env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKENS: ${{ secrets.GITHUB_TOKENS }}
       run: |
         mkdir -p ~/.m2
           
-          echo "<settings><servers><server><id>gh</id><username>$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')</username><password>\${env.GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+          echo "<settings><servers><server><id>gh</id><username>$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}')</username><password>\${env.GITHUB_TOKENS}</password></server></servers></settings>" > ~/.m2/settings.xml
           echo ${GITHUB_REPOSITORY}
           REPO="gh::default::https://maven.pkg.github.com/${GITHUB_REPOSITORY}"
           mvn -B clean deploy -DaltReleaseDeploymentRepository="${REPO}" -DaltSnapshotDeploymentRepository="${REPO}"
