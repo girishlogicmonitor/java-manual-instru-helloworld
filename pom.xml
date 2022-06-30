@@ -2,6 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
 	<groupId>com.logicmonitor.apm</groupId>
 	<artifactId>java-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -14,6 +20,10 @@
 		<logicmonitor_otel.version>0.1.0-alpha</logicmonitor_otel.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>io.opentelemetry</groupId>
 			<artifactId>opentelemetry-sdk-extension-aws</artifactId>
@@ -51,6 +61,12 @@
 			<artifactId>grpc-netty-shaded</artifactId>
 			<version>1.39.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -68,28 +84,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>8</source>
-					<target>8</target>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>com.yourcompany.lmoteldemo.Helloworld</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

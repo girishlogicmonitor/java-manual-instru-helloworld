@@ -7,12 +7,38 @@ import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
 import io.opentelemetry.semconv.resource.attributes.ResourceAttributes;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
+@Controller
+@Configuration
+@SpringBootApplication
+@RequestMapping(path = "/yourcompany")
 public class Helloworld {
 
-    private static final String SERVICE_NAME = "yourcompany-primary-service";
+    private static final String SERVICE_NAME = "yourcompany-primary-service";   //
+
+    static Integer myPort = 0;
+
+    @EventListener
+    public void onApplicationEvent(final ServletWebServerInitializedEvent event) {
+        myPort = event.getWebServer().getPort();
+    }
+
+
+    public static void main(String[] args) {
+        SpringApplication.run(Helloworld.class, args);
+    }
 
     static {
 
@@ -42,7 +68,8 @@ public class Helloworld {
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
                 //.setEndpoint("https://<LOGICMONITOR_ACCOUNT_NAME>.logicmonitor.com/rest/api")
                 //.addHeader("Authorization", "Bearer <your company token>")
-                .setEndpoint("http://localhost:4317")
+                //.setEndpoint("http://localhost:4317")
+                .setEndpoint("http://10.55.13.130:4317")
                 .build();
 
         //Create SdkTracerProvider so GlobalOpenTelemetry can understand
@@ -53,11 +80,18 @@ public class Helloworld {
                 .build();
     }
 
-    public static void main(String[] args) {
-        Integer limit= 100000;  // send as many traces you want to understand further deeper
-        for(int i = 0; i <=limit; ++i) {
-            YourCompanyOperation operation = new YourCompanyOperation();
-            operation.performCompanyRootOperation();
+    @RequestMapping("/random")
+    public @ResponseBody ResponseEntity<String> performDummyOperation(HttpServletRequest request) {
+        System.out.println(request.getRequestURL());
+        Integer limit = 3;  // send as many traces you want to understand further deeper
+        for (int i = 0; i <= limit; ++i) {
+            try {
+                YourCompanyOperation operation = new YourCompanyOperation();
+                operation.performCompanyRootOperation();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        return ResponseEntity.ok("Done");
     }
 }
