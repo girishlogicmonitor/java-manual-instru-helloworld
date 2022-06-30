@@ -5,18 +5,7 @@
 	<groupId>com.logicmonitor.apm</groupId>
 	<artifactId>java-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>8</source>
-					<target>8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+
 	<name>logicmonitor-demo</name>
 	<description>LogicMonitor Demo Project</description>
 	<properties>
@@ -38,6 +27,14 @@
 			<groupId>com.logicmonitor</groupId>
 			<artifactId>lm-opentelemetry-sdk</artifactId>
 			<version>${logicmonitor_otel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-otlp-http-trace</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-otlp-http-metrics</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.opentelemetry</groupId>
@@ -68,13 +65,33 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<!--build>
+	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.yourcompany.lmoteldemo.Helloworld</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 		</plugins>
-	</build-->
+	</build>
 
 </project>
