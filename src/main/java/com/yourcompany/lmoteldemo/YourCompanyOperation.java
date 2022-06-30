@@ -10,7 +10,7 @@ import io.opentelemetry.context.Scope;
 public class YourCompanyOperation {
 
     // take handle of Tracer
-    Tracer tracer = GlobalOpenTelemetry.getTracer("company-xoperation-instrumentation");
+    Tracer tracer = Helloworld.openTelemetry.getTracer("yourcompanyproduct-instrumentation");
 
     /*
     *   ROOT OPERATION

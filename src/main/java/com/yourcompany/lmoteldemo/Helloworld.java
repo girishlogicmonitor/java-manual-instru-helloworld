@@ -1,8 +1,16 @@
 package com.yourcompany.lmoteldemo;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.common.AttributesBuilder;
+import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
+import io.opentelemetry.context.propagation.ContextPropagators;
+import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
+import io.opentelemetry.sdk.OpenTelemetrySdk;
+import io.opentelemetry.sdk.metrics.SdkMeterProvider;
+import io.opentelemetry.sdk.metrics.export.PeriodicMetricReader;
 import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
@@ -25,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 @SpringBootApplication
 @RequestMapping(path = "/yourcompany")
 public class Helloworld {
+
+    public static OpenTelemetry openTelemetry = GlobalOpenTelemetry.get();
 
     private static final String SERVICE_NAME = "yourcompany-primary-service";   //
 
@@ -71,13 +81,23 @@ public class Helloworld {
                 .build();
 
         System.out.println("Endpoint for tracing => "+endpoint);
-        
+
         //Create SdkTracerProvider so GlobalOpenTelemetry can understand
         SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder()
                 .addSpanProcessor(BatchSpanProcessor.builder(spanExporter)
                         .setScheduleDelay(200, TimeUnit.MILLISECONDS).build())
                 .setResource(serviceResource)
                 .build();
+
+        SdkMeterProvider meterProvider = SdkMeterProvider.builder()
+                .registerMetricReader(PeriodicMetricReader.builder(OtlpGrpcMetricExporter.builder().build()).build())
+                .build();
+
+        openTelemetry = OpenTelemetrySdk.builder()
+                .setTracerProvider(sdkTracerProvider)
+                .setMeterProvider(meterProvider)
+                .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
+                .buildAndRegisterGlobal();
     }
 
     @RequestMapping("/random")
@@ -89,7 +109,7 @@ public class Helloworld {
             try {
                 YourCompanyOperation operation = new YourCompanyOperation();
                 operation.performCompanyRootOperation();
-                Thread.sleep(5000);
+                //Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
