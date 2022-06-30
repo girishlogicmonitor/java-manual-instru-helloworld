@@ -69,7 +69,7 @@ public class Helloworld {
                 //.setEndpoint("https://<LOGICMONITOR_ACCOUNT_NAME>.logicmonitor.com/rest/api")
                 //.addHeader("Authorization", "Bearer <your company token>")
                 //.setEndpoint("http://localhost:4317")
-                .setEndpoint("http://10.55.13.130:4317")
+                .setEndpoint("https://test.lmoteldev.logicmonitordev.com")
                 .build();
 
         //Create SdkTracerProvider so GlobalOpenTelemetry can understand
@@ -82,12 +82,14 @@ public class Helloworld {
 
     @RequestMapping("/random")
     public @ResponseBody ResponseEntity<String> performDummyOperation(HttpServletRequest request) {
+
         System.out.println(request.getRequestURL());
         Integer limit = 3;  // send as many traces you want to understand further deeper
         for (int i = 0; i <= limit; ++i) {
             try {
                 YourCompanyOperation operation = new YourCompanyOperation();
                 operation.performCompanyRootOperation();
+                Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
