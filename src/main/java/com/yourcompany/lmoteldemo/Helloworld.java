@@ -63,15 +63,15 @@ public class Helloworld {
         Resource serviceResource = Resource
                 .create(attrBuilders.build());
 
+        String endpoint = "https://test.lmoteldev.logicmonitordev.com";
 
         //Create Span Exporter either an http or an GRPC
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
-                //.setEndpoint("https://<LOGICMONITOR_ACCOUNT_NAME>.logicmonitor.com/rest/api")
-                //.addHeader("Authorization", "Bearer <your company token>")
-                //.setEndpoint("http://localhost:4317")
-                .setEndpoint("https://test.lmoteldev.logicmonitordev.com")
+                .setEndpoint(endpoint)
                 .build();
 
+        System.out.println("Endpoint for tracing => "+endpoint);
+        
         //Create SdkTracerProvider so GlobalOpenTelemetry can understand
         SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder()
                 .addSpanProcessor(BatchSpanProcessor.builder(spanExporter)
