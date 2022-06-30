@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping(path = "/yourcompany")
 public class Helloworld {
 
-    public static OpenTelemetry openTelemetry = GlobalOpenTelemetry.get();
+    public static OpenTelemetry openTelemetry = null;//GlobalOpenTelemetry.get();
 
     private static final String SERVICE_NAME = "yourcompany-primary-service";   //
 
